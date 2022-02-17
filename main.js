@@ -81,50 +81,71 @@ function takeTurn(columnIndex) {
   }
 }
 
+function checkRight(player, rowIndex, columnIndex) {
+  if (
+    columnIndex + 3 < board[0].length &&
+    player == board[rowIndex][columnIndex + 1] && // look right
+    player == board[rowIndex][columnIndex + 2] &&
+    player == board[rowIndex][columnIndex + 3]
+  ) {
+    return true;
+  }
+}
+
+function checkUp(player, rowIndex, columnIndex) {
+  if (
+    player == board[rowIndex + 1][columnIndex] && // look up
+    player == board[rowIndex + 2][columnIndex] &&
+    player == board[rowIndex + 3][columnIndex]
+  ) {
+    return true;
+  }
+}
+
+function checkUpRight(player, rowIndex, columnIndex) {
+  if (
+    columnIndex + 3 < board[0].length &&
+    player == board[rowIndex + 1][columnIndex + 1] && // look up & right
+    player == board[rowIndex + 2][columnIndex + 2] &&
+    player == board[rowIndex + 3][columnIndex + 3]
+  ) {
+    return true;
+  }
+}
+
+function checkUpLeft(player, rowIndex, columnIndex) {
+  if (
+    columnIndex - 3 >= 0 &&
+    player == board[rowIndex + 1][columnIndex - 1] && // look up & left
+    player == board[rowIndex + 2][columnIndex - 2] &&
+    player == board[rowIndex + 3][columnIndex - 3]
+  )
+    return true;
+}
 // Check Winner
 function checkWinner() {
-  // Get board measurements
   const height = board.length;
   const width = board[0].length;
-  // iterate rows
   for (let rowIndex = 0; rowIndex < height; rowIndex++) {
-    // iterate columns
     for (let columnIndex = 0; columnIndex < width; columnIndex++) {
       let player = board[rowIndex][columnIndex];
       // Skip to next iteration if no token
       if (player === null) {
         continue;
       }
-      if (
-        columnIndex + 3 < width &&
-        player == board[rowIndex][columnIndex + 1] && // look right
-        player == board[rowIndex][columnIndex + 2] &&
-        player == board[rowIndex][columnIndex + 3]
-      ) {
+      if (checkRight(player, rowIndex, columnIndex)) {
         return player;
       }
-      // we don't need to go left because we scan the whole board from the right
       if (rowIndex + 3 < height) {
-        if (
-          player == board[rowIndex + 1][columnIndex] && // look up
-          player == board[rowIndex + 2][columnIndex] &&
-          player == board[rowIndex + 3][columnIndex]
-        )
+        if (checkUp(player, rowIndex, columnIndex)) {
           return player;
-        if (
-          columnIndex + 3 < width &&
-          player == board[rowIndex + 1][columnIndex + 1] && // look up & right
-          player == board[rowIndex + 2][columnIndex + 2] &&
-          player == board[rowIndex + 3][columnIndex + 3]
-        )
+        }
+        if (checkUpRight(player, rowIndex, columnIndex)) {
           return player;
-        if (
-          columnIndex - 3 >= 0 &&
-          player == board[rowIndex + 1][columnIndex - 1] && // look up & left
-          player == board[rowIndex + 2][columnIndex - 2] &&
-          player == board[rowIndex + 3][columnIndex - 3]
-        )
+        }
+        if (checkUpLeft(player, rowIndex, columnIndex)) {
           return player;
+        }
       }
     }
   }
