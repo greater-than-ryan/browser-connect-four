@@ -1,5 +1,22 @@
+// Create HTML grid
+function createGrid() {
+  // Rows
+  for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
+    // Columns
+    for (let columnIndex = 0; columnIndex < 7; columnIndex++) {
+      let gridItem = document.createElement("div");
+      gridItem.setAttribute("id", `row-${rowIndex}-column-${columnIndex}`);
+      gridItem.setAttribute("class", "grid-item");
+      document.getElementById("board").appendChild(gridItem);
+    }
+  }
+}
+
+createGrid();
+
 // Global Variables
 
+let gameState = true;
 let board = [
   [null, null, null, null, null, null, null],
   [null, null, null, null, null, null, null],
@@ -13,6 +30,9 @@ console.log(board.length); // 6
 
 let player1 = true;
 let player2 = false;
+
+let cpu = false;
+let cpuWins = 0;
 
 let player1Wins = 0;
 let player2Wins = 0;
@@ -65,7 +85,7 @@ function emptyBoard() {
 function takeTurn(columnIndex) {
   for (let rowIndex = board.length - 1; rowIndex >= 0; rowIndex--) {
     console.log(rowIndex);
-    if (board[rowIndex][columnIndex] === null) {
+    if (gameState === true && board[rowIndex][columnIndex] === null) {
       if (player1) {
         board[rowIndex][columnIndex] = "red";
         player1 = false;
@@ -134,16 +154,20 @@ function checkWinner() {
         continue;
       }
       if (checkRight(player, rowIndex, columnIndex)) {
+        gameState = false;
         return player;
       }
       if (rowIndex + 3 < height) {
         if (checkUp(player, rowIndex, columnIndex)) {
+          gameState = false;
           return player;
         }
         if (checkUpRight(player, rowIndex, columnIndex)) {
+          gameState = false;
           return player;
         }
         if (checkUpLeft(player, rowIndex, columnIndex)) {
+          gameState = false;
           return player;
         }
       }
@@ -151,6 +175,7 @@ function checkWinner() {
   }
   let flatBoard = board.flat();
   if (!flatBoard.includes(null)) {
+    gameState = false;
     return "nobody";
   }
 }
@@ -221,24 +246,26 @@ for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
 // Move highlight
 function hoverColumn(rowIndex, columnIndex) {
   // Remove all highlighting
-  for (let rowStart = 0; rowStart < 6; rowStart++) {
-    for (let columnStart = 0; columnStart < 7; columnStart++) {
-      document
-        .getElementById(`row-${rowStart}-column-${columnStart}`)
-        .classList.remove("preview-move-red", "preview-move-yellow");
+  if (gameState === true) {
+    for (let rowStart = 0; rowStart < 6; rowStart++) {
+      for (let columnStart = 0; columnStart < 7; columnStart++) {
+        document
+          .getElementById(`row-${rowStart}-column-${columnStart}`)
+          .classList.remove("preview-move-red", "preview-move-yellow");
+      }
     }
-  }
-  // Highlight next available square
-  for (let rowStart = board.length - 1; rowStart >= 0; rowStart--) {
-    if (board[rowStart][columnIndex] === null) {
-      player1
-        ? document
-            .getElementById(`row-${rowStart}-column-${columnIndex}`)
-            .classList.add("preview-move-red")
-        : document
-            .getElementById(`row-${rowStart}-column-${columnIndex}`)
-            .classList.add("preview-move-yellow");
-      break;
+    // Highlight next available square
+    for (let rowStart = board.length - 1; rowStart >= 0; rowStart--) {
+      if (board[rowStart][columnIndex] === null) {
+        player1
+          ? document
+              .getElementById(`row-${rowStart}-column-${columnIndex}`)
+              .classList.add("preview-move-red")
+          : document
+              .getElementById(`row-${rowStart}-column-${columnIndex}`)
+              .classList.add("preview-move-yellow");
+        break;
+      }
     }
   }
 }
@@ -285,6 +312,8 @@ function resetGame() {
   ];
   player1 = true;
   player2 = false;
+  cpu = false;
+  gameState = true;
   emptyBoard();
   const winnerNameSpan = document.getElementById("winner-name");
   winnerNameSpan.innerText = "";
