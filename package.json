@@ -1,0 +1,23 @@
+{
+	"name": "browser-connect-four",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest",
+		"coverage": "npx jest --coverage"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/greater-than-ryan/browser-connect-four.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/greater-than-ryan/browser-connect-four/issues"
+	},
+	"homepage": "https://github.com/greater-than-ryan/browser-connect-four#readme",
+	"devDependencies": {
+		"jest": "^27.5.1"
+	}
+}

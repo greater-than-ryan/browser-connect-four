@@ -10,6 +10,11 @@ let board = [
 	[null, null, null, null, null, null, null],
 ]
 
+// set the board up to any arbitrary values for tests
+function setBoard(newBoard) {
+	console.log('setBoard was called')
+	board = newBoard
+}
 // console.log(board.length) // 6
 
 let player1 = true
@@ -205,6 +210,7 @@ module.exports = {
 	cpuTurn,
 	findRow,
 	getRandomInt,
+	setBoard,
 	player1Name,
 	player2Name,
 	gameState,
