@@ -12,8 +12,10 @@
 - [x] Add player names and declare winners
 - [x] Scoreboard tracking player victories
 - [x] Replace winner text of red with player/cpu name
-- [ ] Easy and difficult CPU
-- [ ] If CPU selected disable player2 button
+- [ ] Separate functions into pure functions, DOM functions etc
+- [x] Easy CPU
+- [ ] Optimal CPU
+- [ ] When CPU is active, disable Player 2 button and change name to CPU
 - [ ] Leaderboard/persistent scores in CSV/JSON file
 - [ ] Refactor to OOP
 
